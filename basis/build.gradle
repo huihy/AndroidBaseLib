@@ -1,0 +1,77 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.defaultVersionCode
+        versionName rootProject.ext.android.defaultVersionName
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kapt {
+        arguments {
+            //ARouterl配置
+            arg("AROUTER_MODULE_NAME", project.getName())
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    dexOptions {
+        jumboMode = true
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+dependencies {
+
+    //google相关库
+    api rootProject.ext.googleLibs
+    //三方控件
+    api rootProject.ext.viewLibs
+    //网络请求
+    api rootProject.ext.netLibs
+    //androix
+    api rootProject.ext.androidxLibs
+    //工具类
+    api rootProject.ext.utilsLibs
+    //路由
+    api rootProject.ext.arouterDeps["arouter"]
+    //glide
+    api rootProject.ext.glideDeps["glide"]
+    api rootProject.ext.glideDeps["integration"]
+    kapt rootProject.ext.glideDeps["compiler"]
+    //kotlin
+    api rootProject.ext.kotlinLibs
+
+    //ARouter配置
+    kapt rootProject.ext.arouterDeps["compiler"]
+}
